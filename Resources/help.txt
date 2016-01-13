@@ -1,0 +1,9 @@
+Before running get the necessary config files from Will.
+He's no good at setup files and tries to be smarter than he really is.
+
+Changes to config files will be noted here:
+
+1/13/15 Initial commit
+    google_sheets.json
+    hipchat.json
+    zendesk.json
