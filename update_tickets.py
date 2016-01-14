@@ -7,12 +7,25 @@ def update_tickets():
     updates = gs.Worksheet("ICCID Changes in NS (Responses)")
 
     update_list = updates.get_updates()
-    for line in update_list:
-        meid = line[0]
-        field = line[1]
-        change = line[2]
-        ticket = line[3]
-        update = line[4]
+    for item in update_list:
+        meid = item['meid']
+        field = item['field']
+        mac_sn = item['mac_sn']
+        iccid = item['ICCID']
+        ticket = item['ticket']
+        update = item['update?']
+
+
+        if mac_sn == '' and iccid != '':
+            change = iccid
+        elif iccid == '' and mac_sn != '':
+            change = mac_sn
+        elif iccid == '' and mac_sn == '':
+            change = 'False'
+        else:
+            change = 'ERROR'
+            print "Invalid change. Exiting..."
+            exit()
 
         if update == 'Yes':
             z.update_comment(ticket, meid, field, change)
@@ -20,6 +33,5 @@ def update_tickets():
 
     print 'Done!'
     hc.send_message('276421', 'Tier 3', 'NetSuite updates are complete. Check your tickets for updates.')
-    print 'Hipchat notification sent.'
 
 update_tickets()
