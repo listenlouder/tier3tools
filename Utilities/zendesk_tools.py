@@ -11,10 +11,11 @@ except KeyError:
     print 'Zendesk auth not found. Check help.txt for more info.'
     exit()
 
+Auth = (zd_email, zd_token)
+
 
 def update_comment(ticket, meid, field, change):
     long_url = zd_url + 'tickets/%s.json' % ticket
-    auth = (zd_email, zd_token)
     data = json.dumps({
         'ticket': {
             'status': 'open',
@@ -26,7 +27,7 @@ def update_comment(ticket, meid, field, change):
     })
     headers = {'Content-Type': 'application/json'}
 
-    response = requests.put(long_url, data=data, auth=auth, headers=headers)
+    response = requests.put(long_url, data=data, auth=Auth, headers=headers)
 
     if response.status_code != 200 and response.status_code != 422:
         print('Status:', response.status_code, 'Problem with the request. Exiting.')
@@ -39,8 +40,7 @@ def update_comment(ticket, meid, field, change):
 
 def get_ticket_info(ticket):
     long_url = zd_url + 'tickets/%s.json' % ticket
-    auth = (zd_email, zd_token)
-    response = requests.get(long_url, auth=auth)
+    response = requests.get(long_url, auth=Auth)
 
     if response.status_code != 200:
         print 'Problem with the request. Exiting.'
@@ -73,13 +73,12 @@ def get_device_info(content):
 
 def pull_view(view):
     next_page = view
-    login = ('wbradford@bandwidth.com/token', 'r3JY0ireK2G2d0yvbxZfBLLIZcAk8TbkTE1xqInI')
     ticket_numbers = {}
     tally = 1
     print 'Querying Zendesk...'
 
     while next_page is not None:
-        ticket_view = requests.get(next_page, auth=login)
+        ticket_view = requests.get(next_page, auth=Auth)
         if ticket_view.status_code != 200:
             print('Status:', ticket_view.status_code, 'Problem with the request. Exiting.')
             exit()
@@ -101,7 +100,7 @@ def pull_view(view):
 
 
 def get_device_type_tickets(device_type, ticket):
-    incidents = pull_view('https://help.republicwireless.com/api/v2/tickets/%s/incidents.json' % ticket)
+    incidents = pull_view(zd_url + 'tickets/%s/incidents.json' % ticket)
     device_type_tickets = []
 
     for key, value in incidents.items():
@@ -112,7 +111,7 @@ def get_device_type_tickets(device_type, ticket):
 
 
 def get_affected_devices(ticket):
-    incidents = pull_view('https://help.republicwireless.com/api/v2/tickets/%s/incidents.json' % ticket)
+    incidents = pull_view(zd_url + 'tickets/%s/incidents.json' % ticket)
     device_types = []
 
     for key, value in incidents.items():

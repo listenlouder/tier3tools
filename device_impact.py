@@ -7,4 +7,5 @@ except ValueError:
     print 'Include ticket when calling.'
     exit()
 
-z.get_affected_devices(ticket)
+device_table = z.calculate_device_impact(ticket)
+print device_table

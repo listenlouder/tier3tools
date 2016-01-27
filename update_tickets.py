@@ -15,7 +15,6 @@ def update_tickets():
         ticket = item['ticket']
         update = item['update?']
 
-
         if mac_sn == '' and iccid != '':
             change = iccid
         elif iccid == '' and mac_sn != '':
