@@ -2,7 +2,7 @@ from Utilities import zendesk_tools as z
 from sys import argv
 
 try:
-    script, device_type, ticket = argv
+    _, device_type, ticket = argv
 except ValueError:
     print 'Include "device type (based on zendesk tag) ticket" when calling.'
     exit()

@@ -83,12 +83,12 @@ def pull_view(view):
             print('Status:', ticket_view.status_code, 'Problem with the request. Exiting.')
             exit()
         json_data = json.loads(ticket_view.text)
-        tickets_temp = json_data.get("tickets")
-        total = json.loads(ticket_view.text).get("count")
+        tickets_temp = json_data.get('tickets')
+        total = json.loads(ticket_view.text).get('count')
 
         for thing in tickets_temp:
             for key, value in thing.items():
-                if key == "id":
+                if key == 'id':
                     ticket_numbers[value] = thing.get('updated_at'), thing.get('status'), thing.get('custom_fields')
         next_page = json.loads(ticket_view.text).get('next_page')
 

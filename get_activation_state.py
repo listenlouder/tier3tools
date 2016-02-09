@@ -17,7 +17,7 @@ def get_activation_state(meid, msn, mac):
     print response.content
 
 try:
-    script, meid, msn, mac = argv
+    _, meid, msn, mac = argv
 except ValueError:
     print "Include MEID, MSN, and MAC when calling."
     exit()
