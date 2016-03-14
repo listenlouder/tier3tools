@@ -5,8 +5,9 @@ from Utilities import zendesk_tools as z
 
 def update_tickets():
     updates = gs.Worksheet("ICCID Changes in NS (Responses)")
-
+    needs_update = False
     update_list = updates.get_updates()
+
     for item in update_list:
         meid = item['meid']
         field = item['field']
@@ -27,10 +28,12 @@ def update_tickets():
             exit()
 
         if update == 'Yes':
+            needs_update = True
             z.update_comment(ticket, meid, field, change)
             print 'Updated %s' % ticket
 
     print 'Done!'
-    hc.send_message('276421', 'Tier 3', 'NetSuite updates are complete. Check your tickets for updates.')
+    if needs_update:
+        hc.send_message('276421', 'Tier 3', 'NetSuite updates are complete. Check your tickets for updates.')
 
 update_tickets()
