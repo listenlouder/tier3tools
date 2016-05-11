@@ -12,7 +12,7 @@ except KeyError:
 
 
 def get_activation_state(meid, msn, mac):
-    response = requests.get(rw_url + 'device_state?'
+    response = requests.get(rw_url + '/device_state?'
                             'meid=%s&msn=%s&mac_address=%s' % (meid, msn, mac))
     print response.content
 
