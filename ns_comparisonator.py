@@ -2,17 +2,25 @@ import csv
 import getpass
 import requests
 import json
+import re
 from sys import argv
 
-
+# Gets list of asn values to check from a csv
 def get_csv(file_name):
     with open('/Users/%s/Downloads/%s' % (getpass.getuser(), file_name), 'rU') as data:
         reader = csv.reader(data)
         asn_list = list(reader)
-
+    # regex to filter out headers at the top of the csv
+    if re.match(r'9{2}0{3}.{9}|A0{5}.{8}', asn_list[0][0]) is None:
+        asn_list = asn_list[1:]
+    # removes any blank lines in the
+    for pos, line in enumerate(asn_list):
+        if line [0] == '':
+            asn_list.pop(pos)
+    print asn_list
     return asn_list
 
-
+# Builds a string of MEIDs to send in the request url
 def build_meids(asn_list):
     meids = ''
     for line in asn_list:
@@ -21,7 +29,7 @@ def build_meids(asn_list):
 
     return meids[:-1]
 
-
+# Requests device inventory records for specified string of MEIDs
 def get_device_inventory_record(meids):
     json_info = json.load(open('Resources/republic.json'))
     base_url = json_info['url2']
@@ -39,7 +47,7 @@ def get_device_inventory_record(meids):
 
     return response.json()
 
-
+# Compares response and known list and filters out any missing MEIDs with notificaiton
 def remove_missing_meids(asn_list, stratus_list):
     for pos, data in enumerate(asn_list):
         found = False
@@ -54,9 +62,10 @@ def remove_missing_meids(asn_list, stratus_list):
 
     return asn_list
 
-
+# Cleans asn list then compares it to the stratus list
 def compare_items(asn_list, stratus_list):
     clean_asn_list = remove_missing_meids(asn_list, stratus_list)
+
     for position, data in enumerate(clean_asn_list):
         asn_item = stratus_list['members'][position]
         if asn_item['meid'] == data[0]:
@@ -67,8 +76,6 @@ def compare_items(asn_list, stratus_list):
             if data[2].upper() != asn_item['mac_address']:
                 print 'WiFi MAC mismatch found for device %s. Expected %s Modus gave %s' % \
                       (asn_item['meid'], asn_item['mac_address'], data[2].upper())
-        else:
-            print 'MEID %s not found in NS' % data[0]
 
 
 def run():
