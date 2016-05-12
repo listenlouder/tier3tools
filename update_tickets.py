@@ -1,7 +1,6 @@
 from Utilities import google_sheets as gs
-from Utilities import hipchat_tools as hc
 from Utilities import zendesk_tools as z
-
+# from Utilities import slack_tools as s
 
 def update_tickets():
     updates = gs.Worksheet("ICCID Changes in NS (Responses)")
@@ -34,6 +33,8 @@ def update_tickets():
 
     print 'Done!'
     if needs_update:
-        hc.send_message('276421', 'Tier 3', 'NetSuite updates are complete. Check your tickets for updates.')
+        pass
+        # This will send a message to slack once we can get a stupid token
+        # s.send_message('room_name', 'Tier 3', 'NetSuite updates are complete. Check your tickets for updates.')
 
 update_tickets()
