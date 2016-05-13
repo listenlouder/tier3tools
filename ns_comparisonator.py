@@ -59,7 +59,7 @@ def find_duplicates(asn_list):
             exit()
     print 'No duplicates found'
 
-# Compares response and known list and filters out any missing MEIDs with notificaiton
+# Compares response and known list and filters out any missing MEIDs with notification
 def remove_missing_meids(asn_list, stratus_list):
     for pos, data in enumerate(asn_list):
         found = False
