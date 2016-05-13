@@ -96,7 +96,7 @@ def run():
     find_duplicates(asn_list)
     print 'Asking Lord Stratus nicely for %s device records...' % len(asn_list)
     stratus_list = get_device_inventory_record(build_meids(asn_list))
-
+    # TODO: Add in a validator for iccid/mac to ensure the values we're given are valid
     compare_items(asn_list, stratus_list)
     print 'Script finished.'
 
