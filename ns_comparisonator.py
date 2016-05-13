@@ -15,7 +15,7 @@ def get_csv(file_name):
         asn_list = asn_list[1:]
     # removes any blank lines in the
     for pos, line in enumerate(asn_list):
-        if line [0] == '':
+        if line[0] == '':
             asn_list.pop(pos)
     print asn_list
     return asn_list
