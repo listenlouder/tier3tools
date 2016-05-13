@@ -17,7 +17,7 @@ def get_csv(file_name):
     for pos, line in enumerate(asn_list):
         if line[0] == '':
             asn_list.pop(pos)
-    print asn_list
+
     return asn_list
 
 # Builds a string of MEIDs to send in the request url
@@ -46,6 +46,18 @@ def get_device_inventory_record(meids):
         exit()
 
     return response.json()
+
+# Checks for duplicate MEIDs in the modus list
+def find_duplicates(asn_list):
+    meids = []
+    for item in asn_list:
+        meids.append(item[0])
+
+    for item in meids:
+        if meids.count(item) > 1:
+            print 'Duplicate MEID found: %s. Please resolve before continuing.' % item
+            exit()
+    print 'No duplicates found'
 
 # Compares response and known list and filters out any missing MEIDs with notificaiton
 def remove_missing_meids(asn_list, stratus_list):
@@ -81,6 +93,7 @@ def compare_items(asn_list, stratus_list):
 def run():
     _, filename = argv
     asn_list = get_csv(filename)
+    find_duplicates(asn_list)
     print 'Asking Lord Stratus nicely for %s device records...' % len(asn_list)
     stratus_list = get_device_inventory_record(build_meids(asn_list))
 
