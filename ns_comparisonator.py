@@ -74,6 +74,13 @@ def remove_missing_meids(asn_list, stratus_list):
 
     return asn_list
 
+# Validates MEID/MAC to ensure they at least match the correct format
+def validate(iccid, mac):
+    if re.match(r'^(890112)(\d{14})$', iccid) is None:
+        print '%s is not a valid ICCID' % iccid
+    if re.match(r'^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$', mac) is None:
+        print '%s is not a valid MAC address' % mac
+
 # Cleans asn list then compares it to the stratus list
 def compare_items(asn_list, stratus_list):
     clean_asn_list = remove_missing_meids(asn_list, stratus_list)
@@ -88,6 +95,7 @@ def compare_items(asn_list, stratus_list):
             if data[2].upper() != asn_item['mac_address']:
                 print 'WiFi MAC mismatch found for device %s. Expected %s Modus gave %s' % \
                       (asn_item['meid'], asn_item['mac_address'], data[2].upper())
+            validate(data[1], data[2].upper())
 
 
 def run():
@@ -96,7 +104,6 @@ def run():
     find_duplicates(asn_list)
     print 'Asking Lord Stratus nicely for %s device records...' % len(asn_list)
     stratus_list = get_device_inventory_record(build_meids(asn_list))
-    # TODO: Add in a validator for iccid/mac to ensure the values we're given are valid
     compare_items(asn_list, stratus_list)
     print 'Script finished.'
 
