@@ -62,6 +62,7 @@ def find_duplicates(asn_list):
         print 'No duplicates found'
     else:
         print 'Duplicate MEIDs found: %s' % duplicates.keys()
+        print 'Please resolve before continuing'
         exit()
 
 # Compares response and known list and filters out any missing MEIDs with notification
