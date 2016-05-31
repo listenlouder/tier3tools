@@ -50,14 +50,19 @@ def get_device_inventory_record(meids):
 # Checks for duplicate MEIDs in the modus list
 def find_duplicates(asn_list):
     meids = []
+    duplicates = {}
     for item in asn_list:
         meids.append(item[0])
 
     for item in meids:
         if meids.count(item) > 1:
-            print 'Duplicate MEID found: %s. Please resolve before continuing.' % item
-            exit()
-    print 'No duplicates found'
+            duplicates[item] = meids.count(item)
+
+    if len(duplicates) == 0:
+        print 'No duplicates found'
+    else:
+        print 'Duplicate MEIDs found: %s' % duplicates.keys()
+        exit()
 
 # Compares response and known list and filters out any missing MEIDs with notification
 def remove_missing_meids(asn_list, stratus_list):
