@@ -15,7 +15,7 @@ def update_tickets():
         update = item['update?']
 
         if mac_sn == '' and iccid != '':
-            change = iccid + "  You can now depro/repro the service line and inform the customer."
+            change = iccid + " - You can now depro/repro the service line and inform the customer."
         elif iccid == '' and mac_sn != '':
             change = mac_sn
         elif iccid == '' and mac_sn == '':
