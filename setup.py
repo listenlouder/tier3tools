@@ -7,5 +7,6 @@ setup(name='tier3tools',
           'requests',
           'gspread',
           'python-simple-hipchat',
-          'slackclient'
+          'slackclient',
+          'oauth2client'
       ])
