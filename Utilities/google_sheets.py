@@ -1,6 +1,5 @@
-import json
 import gspread
-from oauth2client.client import SignedJwtAssertionCredentials
+from oauth2client.service_account import ServiceAccountCredentials
 
 
 class Worksheet(object):
@@ -9,11 +8,10 @@ class Worksheet(object):
         self.sheet_name = sheet_name
 
     def get_sheet(self):
-        json_key = json.load(open('Resources/google_sheets.json'))
         scope = ['https://spreadsheets.google.com/feeds']
 
         try:
-            credentials = SignedJwtAssertionCredentials(json_key['client_email'], json_key['private_key'].encode(), scope)
+            credentials = ServiceAccountCredentials.from_json_keyfile_name('Resources/google_sheets.json', scope)
             gc = gspread.authorize(credentials)
             wks = gc.open(self.sheet_name).sheet1
             return wks
