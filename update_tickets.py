@@ -4,7 +4,7 @@ from Utilities import zendesk_tools as z
 
 def update_tickets():
     updates = gs.Worksheet("ICCID Changes in NS (Responses)")
-
+    row = 1 #initializes the row variable
     update_list = updates.get_updates()
     for item in update_list:
         meid = item['meid']
@@ -13,6 +13,7 @@ def update_tickets():
         iccid = item['ICCID']
         ticket = item['ticket']
         update = item['update?']
+        row +=1
 
         if mac_sn == '' and iccid != '':
             change = iccid + " - You can now depro/repro the service line and inform the customer."
@@ -29,6 +30,8 @@ def update_tickets():
         if update == 'Yes':
             z.update_comment(ticket, meid, field, change)
             print 'Updated %s' % ticket
+            print row
+            updates.change_to_done(row)
 
     print 'Done!'
 
