@@ -30,7 +30,6 @@ def update_tickets():
         if update == 'Yes':
             z.update_comment(ticket, meid, field, change)
             print 'Updated %s' % ticket
-            print row
             updates.change_to_done(row)
 
     print 'Done!'
