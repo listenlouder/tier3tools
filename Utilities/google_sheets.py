@@ -28,12 +28,12 @@ class Worksheet(object):
 
         for line in data:
             temp = {}
-            temp['meid'] = line[2]
-            temp['field'] = line[3]
-            temp['ICCID'] = line[4]
-            temp['mac_sn'] = line[5]
-            temp['ticket'] = line[10]
-            temp['update?'] = line[12]
+            temp['meid'] = line[4]
+            temp['field'] = line[5]
+            temp['ICCID'] = line[6]
+            temp['mac_sn'] = line[7]
+            temp['ticket'] = line[3]
+            temp['update?'] = line[2]
 
             output.append(temp)
 
@@ -44,4 +44,4 @@ class Worksheet(object):
 
     def change_to_done(self,row): #changes 'Yes' to 'Done' in the Worksheet
     	mac_sn = Worksheet(self.sheet_name).get_sheet()
-    	output = mac_sn.update_cell(row,13,'Done')
+    	output = mac_sn.update_cell(row,2,'Done')
