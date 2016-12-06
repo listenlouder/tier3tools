@@ -3,7 +3,7 @@ from Utilities import zendesk_tools as z
 
 
 def update_tickets():
-    updates = gs.Worksheet("RDS/NS/TN Update Form Responses")
+    updates = gs.Worksheet("RDS/NS/TN Update Form")
     row = 1 #initializes the row variable
     update_list = updates.get_updates()
     for item in update_list:

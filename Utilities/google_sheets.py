@@ -44,4 +44,4 @@ class Worksheet(object):
 
     def change_to_done(self,row): #changes 'Yes' to 'Done' in the Worksheet
     	mac_sn = Worksheet(self.sheet_name).get_sheet()
-    	output = mac_sn.update_cell(row,2,'Done')
+    	output = mac_sn.update_cell(row,3,'Done')

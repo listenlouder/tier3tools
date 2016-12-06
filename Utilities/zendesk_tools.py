@@ -21,7 +21,7 @@ def update_comment(ticket, meid, field, change):
             'status': 'open',
             'comment': {
                 'public': False,
-                'body': 'MEID: %s updated with %s. %s' % (meid, field, change)
+                'body': 'MEID: %s updated with %s: %s' % (meid, field, change)
             }
         }
     })
