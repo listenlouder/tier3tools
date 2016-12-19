@@ -37,6 +37,30 @@ def update_comment(ticket, meid, field, change):
 
     print 'Success!'
 
+def update_public_comment(ticket):
+    long_url = zd_url + 'tickets/%s.json' % ticket
+    data = json.dumps({
+        'ticket': {
+            'status': 'open',
+            'comment': {
+                'public': True,
+                'body': 'Hi Person'
+            }
+        }
+    })
+    headers = {'Content-Type': 'application/json'}
+
+    response = requests.put(long_url, data=data, auth=Auth, headers=headers)
+
+    if response.status_code != 200 and response.status_code != 422:
+        print('Status:', response.status_code, 'Problem with the request. Exiting.')
+        exit()
+    elif response.status_code == 422:
+        print 'Ticket %s could not be updated. Is it closed?' % ticket
+
+    print 'Success!'
+
+
 
 def get_ticket_info(ticket):
     long_url = zd_url + 'tickets/%s.json' % ticket
