@@ -1,15 +1,59 @@
 # incident_ticket.py ---------
-
-from Utilities import zendesk_tools as z
+import json
 from sys import argv
+import requests
 
+# Shamelessly ripped from zendesk_tools.py - Reads Zendesk creds stored in
+# json zendesk resource file and assigns elements to local variables for
+# the requests module to use.
+json_info = json.load(open('Resources/zendesk.json'))
+
+try:
+    zd_url = json_info['url']
+    # print zd_url - used this to test variable assignment
+    zd_email = json_info['email']
+    zd_token = json_info['token']
+except KeyError:
+    print 'Zendesk auth not found. Check help.txt for more info.'
+    exit()
+
+# sets credentials obtained from json resource file to Global auth variable
+Auth = (zd_email, zd_token)
+
+# Use argv to take in the Zendesk master ticket ID for script use (bug ticket # follows script call).
 try:
     _, ticket = argv
 except ValueError:
-    print 'Please include ticket number when executing!'
+    print 'Please include bug ticket number when executing!'
     exit()
 
-z.pull_view(ticket)
+# function for submitting request to Zendesk api to request JSON payload
+def get_incident_ticket_info(ticket):
+    start_url = zd_url + 'tickets/%s/incidents.json' % ticket
+    ticket_data = {}
+    print 'Querying Zendesk API...'
+
+    while start_url is not None:
+        next_url = requests.get(start_url, auth=Auth)
+        if next_url.status_code != 200:
+            print('Status:', next_url.status_code, 'Problem with the request. Exiting.')
+            exit()
+        json_data = json.loads(next_url.text)
+        tickets_temp = json_data.get('tickets')
+
+#        for thing in tickets_temp:
+#            for key, value in thing.items():
+#                if key == 'id':
+#                    ticket_numbers[value] = thing.get('updated_at'), thing.get('status'), thing.get('custom_fields')
+        start_url = json.loads(next_url.text).get('next_page')
+
+
+    print tickets_temp
+    return ticket_data
+
+get_incident_ticket_info(ticket)
+
+
 
 # Customer ticket
 # multiple member-generated tickets that are attached as incidents to the zendesk master. Contain query items
