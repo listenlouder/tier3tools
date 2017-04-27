@@ -30,9 +30,10 @@ except ValueError:
 # function for submitting request to Zendesk api to request JSON payload
 def get_incident_ticket_info(ticket):
     start_url = zd_url + 'tickets/%s/incidents.json' % ticket
-    ticket_data = {}
     print 'Querying Zendesk API...'
 
+    # loads each page of JSON data from the zendesk api - stringed by the value pulled
+    # by the 'next_page' key.
     while start_url is not None:
         next_url = requests.get(start_url, auth=Auth)
         if next_url.status_code != 200:
@@ -41,15 +42,10 @@ def get_incident_ticket_info(ticket):
         json_data = json.loads(next_url.text)
         tickets_temp = json_data.get('tickets')
 
-#        for thing in tickets_temp:
-#            for key, value in thing.items():
-#                if key == 'id':
-#                    ticket_numbers[value] = thing.get('updated_at'), thing.get('status'), thing.get('custom_fields')
         start_url = json.loads(next_url.text).get('next_page')
 
-
-    print tickets_temp
-    return ticket_data
+    print json.dumps(tickets_temp)
+    return tickets_temp
 
 get_incident_ticket_info(ticket)
 
