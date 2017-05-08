@@ -44,7 +44,7 @@ def get_incident_ticket_info(ticket):
 
         start_url = json.loads(next_url.text).get('next_page')
 
-    print json.dumps(tickets_temp)
+    print json.dumps(tickets_temp, indent=4)
     return tickets_temp
 
 get_incident_ticket_info(ticket)
