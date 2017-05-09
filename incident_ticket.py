@@ -54,14 +54,14 @@ get_incident_ticket_info(ticket)
 # Customer ticket
 # multiple member-generated tickets that are attached as incidents to the zendesk master. Contain query items
 # such as:
-#            * device type
-#            * tags
-#            * assignee
-#            * last updated
+#            * device type - "id": 21108369
+#            * tags - will come back to this one, looks a little tricky
+#            * assignee - "id": 21638441 (may not be as useful now with current TAC policies)
+#            * last updated -
 #            * ticket ID
-#            * group assigned
-#            * affected phone #
-#            * triage bucket
+#            * group assigned - (request group) "id": 21638431
+#            * affected phone # - "id": 22016047
+#            * triage bucket - "id": 22858340
 #            * etc... as needed
 
 # zendesk user
