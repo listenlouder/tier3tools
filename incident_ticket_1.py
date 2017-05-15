@@ -44,6 +44,7 @@ def get_incident_ticket_info(ticket):
 
         start_url = json.loads(next_url.text).get('next_page')
 
+    print "Data retrieval from Zendesk API complete!"
     return tickets_temp
 
 def json_output_prettyfier(loaded_json_file):
