@@ -8,7 +8,11 @@ import csv
 try:
     _, csv = argv
 except ValueError:
-    print 'Please include CSV file when executing!'
+    print """
+    Please include CSV file when executing!
+    Format: (python) (script name) (csv name/location)
+    Example: python tn_active.py dash_tns\ - \ Sheet1.csv (forward slash necessary for spaces in terminal)
+    """
     exit()
 
 # function for ripping TNs from provided CSV
@@ -37,10 +41,11 @@ def request_tn_data_from_iris(temp_store):
                                'Authorization': 'Basic cmVwdWJsaWN3aXJlbGVzczpwb25HUzcyU3AhY2E='}))
 
         if rsp.status_code == 200:
-            print tn + " is still active in our system."
+            print tn + " is either still in-service with Republic or in aging status."
 
         # used for debugging the response content from IRIS
         # print rsp.content
+    print "\nRequest complete!"
 
 
 def main():
