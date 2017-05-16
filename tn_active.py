@@ -11,7 +11,7 @@ except ValueError:
     print 'Please include CSV file when executing!'
     exit()
 
-# function for submitting request to IRIS
+# function for ripping TNs from provided CSV
 def pull_tns_from_csv(csv):
 
     # reads from the input csv and strips the leading '1' from the tn
@@ -20,23 +20,27 @@ def pull_tns_from_csv(csv):
         temp_store = []
 
         for tn in csvfile:
-            temp_store.append(tn[1:])
+            temp_store.append(tn[1:11])
 
     # print temp_store
     return temp_store
 
+# function for requesting TN data from IRIS
 def request_tn_data_from_iris(temp_store):
+    print "Querying IRIS API...Please wait."
 
     for tn in temp_store:
-        print tn
         rsp = requests.get("https://api.inetwork.com/v1.0/tns/%s" % tn,
                            headers=dict({
                                'Accept': 'application/xml',
                                'Content-Type': 'application/xml',
                                'Authorization': 'Basic cmVwdWJsaWN3aXJlbGVzczpwb25HUzcyU3AhY2E='}))
 
-        if rsp.status_code != 200:
-            print'Request failed: %s' % rsp.status_code
+        if rsp.status_code == 200:
+            print tn + " is still active in our system."
+
+        # used for debugging the response content from IRIS
+        # print rsp.content
 
 
 def main():
