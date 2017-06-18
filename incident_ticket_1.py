@@ -24,7 +24,11 @@ Auth = (zd_email, zd_token)
 try:
     _, ticket = argv
 except ValueError:
-    print 'Please include bug ticket number when executing!'
+    print """
+    Please include a ticket number when submitting!
+    Example Format:
+    python incident_ticket_1.py 1036289
+    """
     exit()
 
 # function for submitting request to Zendesk api to request the full JSON payload for the indicated Bug ticket
@@ -49,6 +53,10 @@ def get_incident_ticket_info(ticket):
 
 def json_output_prettyfier(loaded_json_file):
     print json.dumps(loaded_json_file, indent=4)
+    # json.dumps(loaded_json_file, indent=4)
+
+# def text_scrubber():
+
 
 def main():
     json_output_prettyfier(get_incident_ticket_info(ticket))
