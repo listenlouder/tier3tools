@@ -1,6 +1,7 @@
 # incident_ticket.py ---------
 import json
 from sys import argv
+from operator import itemgetter
 import requests
 
 # Shamelessly ripped from zendesk_tools.py - Reads Zendesk creds stored in
@@ -55,11 +56,26 @@ def json_output_prettyfier(loaded_json_file):
     print json.dumps(loaded_json_file, indent=4)
     # json.dumps(loaded_json_file, indent=4)
 
-# def text_scrubber():
+def data_selector(loaded_json_file):
+
+    print "JSON data loaded."
+
+    print "Please select what data you would like from the attached tickets."
+
+    print "Ticket Information [1] - Zendesk User Information [2] - Both [3]"
+
+    data_request = raw_input("> ")
+    print data_request
+
+    if data_request == int(1):
+        for key, value in loaded_json_file:
+            itemgetter(2)(loaded_json_file)
+
 
 
 def main():
-    json_output_prettyfier(get_incident_ticket_info(ticket))
+    # json_output_prettyfier(get_incident_ticket_info(ticket))
+    data_selector(get_incident_ticket_info(ticket))
 
 main()
 
