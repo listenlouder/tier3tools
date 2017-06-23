@@ -45,12 +45,29 @@ def get_incident_ticket_info(ticket):
             print('Status:', next_url.status_code, 'Problem with the request. Exiting.')
             exit()
         json_data = json.loads(next_url.text)
-        tickets_temp = json_data.get('tickets')
+        print type(json_data)
+        # tickets_temp = json_data.get('tickets')
 
         start_url = json.loads(next_url.text).get('next_page')
 
     print "Data retrieval from Zendesk API complete!"
-    return tickets_temp
+    # return tickets_temp
+    return json_data
+
+# Need to add the functionality in this function to strip out the RW number from the JSON payload.
+# Zendesk field ID for affected TN = 22016047
+def tn_list(loaded_json_file):
+    print "pulling out affected RW numbers..."
+    print "Please wait!"
+    affected_tns = []
+
+    print type(loaded_json_file)
+
+    for key, value in loaded_json_file.items():
+
+
+    print affected_tns
+
 
 def json_output_prettyfier(loaded_json_file):
     print json.dumps(loaded_json_file, indent=4)
@@ -58,7 +75,7 @@ def json_output_prettyfier(loaded_json_file):
 
 def data_selector(loaded_json_file):
 
-    print "JSON data loaded."
+    print "\n\n\nJSON data loaded."
 
     print "Please select what data you would like from the attached tickets."
 
@@ -75,7 +92,8 @@ def data_selector(loaded_json_file):
 
 def main():
     # json_output_prettyfier(get_incident_ticket_info(ticket))
-    data_selector(get_incident_ticket_info(ticket))
+    # data_selector(get_incident_ticket_info(ticket))
+    tn_list(get_incident_ticket_info(ticket))
 
 main()
 
