@@ -33,6 +33,7 @@ except ValueError:
     exit()
 
 # function for submitting request to Zendesk api to request the full JSON payload for the indicated Bug ticket
+# returns the JSON payload in list object type.
 def get_incident_ticket_info(ticket):
     start_url = zd_url + 'tickets/%s/incidents.json' % ticket
     print 'Querying Zendesk API...'
@@ -50,6 +51,8 @@ def get_incident_ticket_info(ticket):
         start_url = json.loads(next_url.text).get('next_page')
 
     print "Data retrieval from Zendesk API complete!"
+
+    # tickets_temp = list
     return tickets_temp
 
 def json_output_prettyfier(loaded_json_file):
@@ -65,11 +68,16 @@ def data_selector(loaded_json_file):
     print "Ticket Information [1] - Zendesk User Information [2] - Both [3]"
 
     data_request = raw_input("> ")
-    print data_request
+    print "before"
 
-    if data_request == int(1):
-        for key, value in loaded_json_file:
-            itemgetter(2)(loaded_json_file)
+    if data_request == str(1):
+        json.dumps(loaded_json_file, )
+
+
+        # for item in loaded_json_file():
+
+
+
 
 
 
